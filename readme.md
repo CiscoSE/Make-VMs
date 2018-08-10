@@ -9,7 +9,7 @@ Your ESXi enviroment may become unstable if you over commit your resources.
 
 Remove-Machines.ps1
 This script removes the VMs created above, but if not handled correctly, it could delete VMs you didn't intend to delete. 
-By default, this script deletes any VM starting with "TestVM". This script deletes them from the disk
+By default, this script deletes any VM starting with "TestVM". This script deletes them from the disk. 
 If you accidently put in the wrong string, you can remove machines you didn't intend to delete. 
 
 If you review this code, and you are unsure of what it does, you probably shouldn't be running it. 
