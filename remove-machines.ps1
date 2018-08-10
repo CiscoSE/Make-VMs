@@ -17,6 +17,9 @@ or implied.
 Used to bulk delete machines from vmware. This script is highly dangerous if you don't know what
 your doing. Make sure you know what it does before you use.
 
+You can use the -whatif switch to see what VMs would be deleted by this script.
+You are highly encouraged to use it.
+
 .PARAMETER User
 Enter the user name for your vCenter. By default we set this to administrator@vsphere.local
 
@@ -29,13 +32,18 @@ This needs to be the fully qualified DNS name for the vCenter supporting the HX 
 .PARAMETER Cluster
 The Name of the cluster in vCenter for the machines to be deleted from.
 
+.PARAMETER IGetIt
+This parameter is required for the script to run, The examples do not show this switch.
+You need to ensure you understand the purpose of this code before you run it. This switch
+is intended to force new users to read the details and make sure they understand the implications.
+
 .EXAMPLE
-Delete all systems start with Test-VM
+Delete all systems that start with Test-VM
 
 .\Remove-machines.ps1 -User useraccount@yourdomain.local -Password 'YourPassword' -Server yourvcenter.yourdomain.local -Cluster YourClusterName -Verbose
 
 #>
-[cmdletbinding()]
+[cmdletbinding(supportsShouldProcess=$True)]
 Param(
 [Parameter(position=1,mandatory=$false)][string]$User = "administrator@vsphere.local",
 [Parameter(position=3,mandatory=$true) ][string]$Password,
