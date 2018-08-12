@@ -98,9 +98,11 @@ measure-command {
     1..$NumberOfVMs | %{
         invoke-command -scriptblock $ScriptBlock -args $Password,$User,$Server,$Template,"TestVM-$($_)",$Cluster,$Datastore
     }
-    do {sleep 1}until(
-        (get-vm TestVM-*).count -eq $NumberOfVMs
-    )
+    do {
+        sleep 1
+        Write-Verbose "Expected $($NumberofFMs). Only Seeing $(get-vm TestVM-*)"
+        }until(
+        (get-vm TestVM-*).count -eq $NumberOfVMs)
 
     get-vm TestVM-* | %{
         Write-Host "Starting VM $($_.Name)"
