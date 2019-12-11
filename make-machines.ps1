@@ -55,13 +55,14 @@ Param(
 
 [parameter(position=0,mandatory=$false)][int]$NumberOfVMs = 250,
 [Parameter(position=1,mandatory=$false)][string]$User = "administrator@vsphere.local",
-[Parameter(position=3,mandatory=$true) ][string]$Password,
 [Parameter(position=4,mandatory=$true) ][string]$Server,
-[Parameter(position=5,mandatory=$true) ][string]$Template,   
+[Parameter(position=5,mandatory=$true) ][string]$Template,  
 [Parameter(position=6,mandatory=$true) ][string]$Cluster,     
 [Parameter(position=7,mandatory=$true) ][string]$Datastore
 
 )
+
+$credentials = Get-Credential -UserName $user -message "Enter Password for $User"
 
 write-verbose "Import Modules for PowerCLI. We assume you have them installed."
 write-verbose "You can pull these from the PowerShell Gallery if needed."
@@ -79,7 +80,7 @@ if (-not [string]::IsNullOrEmpty($global:DefaultVIServer)){
 }
 
 Write-Verbose "Connect to vCenter using credentials provided."
-connect-VIServer $Server -user $User -password $Password -force
+connect-VIServer $Server -user $User -Credential $credentials -force
 
 $ScriptBlock = {
     param(

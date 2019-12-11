@@ -46,12 +46,13 @@ Delete all systems that start with Test-VM
 [cmdletbinding(supportsShouldProcess=$True)]
 Param(
 [Parameter(position=1,mandatory=$false)][string]$User = "administrator@vsphere.local",
-[Parameter(position=3,mandatory=$true) ][string]$Password,
 [Parameter(position=4,mandatory=$true) ][string]$Server,   
 [Parameter(position=6,mandatory=$true) ][string]$Cluster,
 [Parameter(position=7,mandatory=$false) ][string]$VMsToKill = "TestVM*",
 [Parameter(position=8,mandatory=$false)][switch]$IGetIt = $False
 )
+
+$credentials = Get-Credential -UserName $user -message "Enter Password for $User"
 
 #This fail safe ensures that the stript does not run until you understand the risks. 
 if ($IGetIt -eq $False){
@@ -76,7 +77,7 @@ if (-not [string]::IsNullOrEmpty($global:DefaultVIServer)){
 }
 
 Write-Verbose "Connect to vCenter using credentials provided."
-connect-VIServer $Server -user $User -password $Password -force
+connect-VIServer $Server -user $User -Credential $credentials -force
 
 #Get systems to remove from cluster.
 get-cluster $cluster | get-vm -name "$VMsToKill" | %{
